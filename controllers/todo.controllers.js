@@ -53,7 +53,7 @@ export const findtask = async (req, res) => {
   }
 }
 
-
+//this is for updating the task
 export const updatedTask = async (req, res) => {
   try {
     
@@ -62,7 +62,7 @@ export const updatedTask = async (req, res) => {
       //find 
       const update = await Task.findOneAndUpdate(
         { title: req.params.title }, //this will filter
-        req.body,           //this will update
+        req.body,                   //this will update
         { new: true }               //this will deliver the new one
       );
     
@@ -76,4 +76,25 @@ export const updatedTask = async (req, res) => {
   } catch (error) {
     console.error(404, "Something went wrong");
   }
+}
+
+
+
+//this is for deleting the task
+export const deleteTask = async(req,res)=>{
+ try {
+       const deleteTask = await Task.findOneAndDelete(
+        {title: req.params.title}
+      );
+      res.status(200).json(deleteTask)
+  
+      if (!deleteTask) {
+      return res.status(404).json({
+        message: "Task not found"
+      });
+    }
+
+ } catch (error) {
+      console.error(404, "Something went wrong");
+ }
 }
